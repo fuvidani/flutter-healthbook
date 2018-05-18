@@ -17,3 +17,10 @@ script:
 cache:
   directories:
 - $HOME/.pub-cache
+
+notifications:
+  email:
+    recipients:
+    - daniel.fuevesi@gmail.com
+    on_failure: always
+    on_success: change
