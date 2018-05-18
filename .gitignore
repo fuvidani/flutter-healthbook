@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+.DS_Store
+.dart_tool/
+
+.packages
+.pub/
+
+build/
+
+.flutter-plugins
+/healthbook.iml
+/healthbook_android.iml
+.idea

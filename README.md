@@ -1,2 +1,8 @@
-# flutter-healthbook
-Flutter mobile application for storing and sharing user's medical information
+# healthbook
+
+A new Flutter application.
+
+## Getting Started
+
+For help getting started with Flutter, view our online
+[documentation](https://flutter.io/).
