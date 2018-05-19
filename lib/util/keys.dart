@@ -9,6 +9,8 @@ class HealthBookKeys {
   static final medicalInfoList = const Key('__medicalInfoList__');
   static final medicalInfoLoading = const Key('__medicalInfoLoading__');
   static final medicalInfoItem = (String id) => Key('medicalInfoItem__$id');
+  static final medicalInfoItemTitle = (String id) => Key('medicalInfoItem__${id}__Title');
+  static final medicalInfoItemDescription = (String id) => Key('medicalInfoItem__${id}__Description');
 
   // Tabs
   static final tabs = const Key('__tabs__');

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:healthbook/util/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
@@ -8,10 +7,12 @@ import 'package:tuple/tuple.dart';
 class AppState {
   bool isLoading;
   List<MedicalInformation> medicalInformationEntries;
+  List<RelevantQueryData> medicalQueries;
 
   AppState({
     this.isLoading = false,
     this.medicalInformationEntries = const [],
+    this.medicalQueries = const [],
   });
 
   factory AppState.loading() => AppState(isLoading: true);
@@ -19,19 +20,21 @@ class AppState {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is AppState &&
-              runtimeType == other.runtimeType &&
-              isLoading == other.isLoading &&
-              medicalInformationEntries == other.medicalInformationEntries;
+      other is AppState &&
+          runtimeType == other.runtimeType &&
+          isLoading == other.isLoading &&
+          medicalInformationEntries == other.medicalInformationEntries &&
+          medicalQueries == other.medicalQueries;
 
   @override
   int get hashCode =>
       isLoading.hashCode ^
-      medicalInformationEntries.hashCode;
+      medicalInformationEntries.hashCode ^
+      medicalQueries.hashCode;
 
   @override
   String toString() {
-    return 'AppState{isLoading: $isLoading, medicalInformationEntries: $medicalInformationEntries}';
+    return 'AppState{isLoading: $isLoading, medicalInformationEntries: $medicalInformationEntries, medicalQueries: $medicalQueries}';
   }
 
   Future logout() async {
@@ -56,14 +59,14 @@ class MedicalInformation {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is MedicalInformation &&
-              runtimeType == other.runtimeType &&
-              id == other.id &&
-              userId == other.userId &&
-              title == other.title &&
-              description == other.description &&
-              image == other.image &&
-              tags == other.tags;
+      other is MedicalInformation &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          userId == other.userId &&
+          title == other.title &&
+          description == other.description &&
+          image == other.image &&
+          tags == other.tags;
 
   @override
   int get hashCode =>
@@ -78,7 +81,6 @@ class MedicalInformation {
   String toString() {
     return 'MedicalInformation{id: $id, userId: $userId, title: $title, description: $description, image: $image, tags: $tags}';
   }
-
 }
 
 class AuthRequest {
@@ -87,8 +89,7 @@ class AuthRequest {
 
   AuthRequest(this.email, this.password);
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'username': email,
         'password': password,
       };
@@ -99,8 +100,7 @@ class AuthResponse {
 
   AuthResponse(this.token);
 
-  AuthResponse.fromJson(Map<String, dynamic> json)
-      : token = json['token'];
+  AuthResponse.fromJson(Map<String, dynamic> json) : token = json['token'];
 }
 
 class RelevantQueryData {
@@ -117,14 +117,14 @@ class RelevantQueryData {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is RelevantQueryData &&
-              runtimeType == other.runtimeType &&
-              queryId == other.queryId &&
-              queryName == other.queryName &&
-              queryDescription == other.queryDescription &&
-              queryInstituteName == other.queryInstituteName &&
-              queryPrice == other.queryPrice &&
-              medicalInfo == other.medicalInfo;
+      other is RelevantQueryData &&
+          runtimeType == other.runtimeType &&
+          queryId == other.queryId &&
+          queryName == other.queryName &&
+          queryDescription == other.queryDescription &&
+          queryInstituteName == other.queryInstituteName &&
+          queryPrice == other.queryPrice &&
+          medicalInfo == other.medicalInfo;
 
   @override
   int get hashCode =>
@@ -139,7 +139,6 @@ class RelevantQueryData {
   String toString() {
     return 'RelevantQueryData{queryId: $queryId, queryName: $queryName, queryDescription: $queryDescription, queryInstituteName: $queryInstituteName, queryPrice: $queryPrice, medicalInfo: $medicalInfo}';
   }
-
 }
 
 class SharingPermission {
@@ -152,24 +151,19 @@ class SharingPermission {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is SharingPermission &&
-              runtimeType == other.runtimeType &&
-              id == other.id &&
-              information == other.information &&
-              queryId == other.queryId;
+      other is SharingPermission &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          information == other.information &&
+          queryId == other.queryId;
 
   @override
-  int get hashCode =>
-      id.hashCode ^
-      information.hashCode ^
-      queryId.hashCode;
+  int get hashCode => id.hashCode ^ information.hashCode ^ queryId.hashCode;
 
   @override
   String toString() {
     return 'SharingPermission{id: $id, information: $information, queryId: $queryId}';
   }
-
-
 }
 
 enum AppTab { MedicalInformationEntries, MedicalQueries }

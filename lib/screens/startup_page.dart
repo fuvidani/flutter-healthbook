@@ -9,7 +9,6 @@ class StartUpPage extends StatefulWidget {
 }
 
 class _StartUpPageState extends State<StartUpPage> {
-
   @override
   Widget build(BuildContext context) {
     return new Container();
@@ -23,9 +22,11 @@ class _StartUpPageState extends State<StartUpPage> {
       if (prefs.get(API_ADDRESS_KEY) != null &&
           prefs.get(TOKEN_KEY) != null &&
           prefs.get(USER_ID_KEY) != null) {
-        Navigator.pushNamedAndRemoveUntil(context, HealthBookRoutes.home, (_) => false);
+        Navigator.pushNamedAndRemoveUntil(
+            context, HealthBookRoutes.home, (_) => false);
       } else {
-        Navigator.pushNamedAndRemoveUntil(context, HealthBookRoutes.login, (_) => false);
+        Navigator.pushNamedAndRemoveUntil(
+            context, HealthBookRoutes.login, (_) => false);
       }
     })();
   }

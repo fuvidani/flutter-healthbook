@@ -32,7 +32,8 @@ class _LoginPageState extends State<LoginPage> {
       form.save();
       _performLogin().then((bool success) {
         if (success) {
-          Navigator.pushNamedAndRemoveUntil(context, HealthBookRoutes.home, (_) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, HealthBookRoutes.home, (_) => false);
         }
       });
     }
@@ -44,15 +45,16 @@ class _LoginPageState extends State<LoginPage> {
     try {
       http.Response response = await http.post(
           'http://$_apiAddress/api/auth/login',
-          headers: {"Content-Type": "application/json",
-            "Accept": "application/json"},
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
           body: jsonEncode(request.toJson()));
       if (response != null && response.statusCode != 200) {
-        final snackBar = new SnackBar(content: new Text(
-            response.statusCode == 401
+        final snackBar = new SnackBar(
+            content: new Text(response.statusCode == 401
                 ? "Invalid credentials"
-                : "Backend not avaiable, check connection"
-        ));
+                : "Backend not avaiable, check connection"));
         _scaffoldKey.currentState.showSnackBar(snackBar);
         return false;
       } else {
@@ -66,7 +68,8 @@ class _LoginPageState extends State<LoginPage> {
         return true;
       }
     } on Exception {
-      final snackBar = new SnackBar(content: new Text("Backend not avaiable, check connection"));
+      final snackBar = new SnackBar(
+          content: new Text("Backend not avaiable, check connection"));
       _scaffoldKey.currentState.showSnackBar(snackBar);
       return false;
     }
@@ -74,7 +77,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(key: _scaffoldKey,
+    return new Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         title: new Text(widget.title),
         centerTitle: false,
@@ -88,38 +92,33 @@ class _LoginPageState extends State<LoginPage> {
               new TextFormField(
                 decoration: new InputDecoration(labelText: 'Server address'),
                 validator: (val) =>
-                !val.contains(':') ? 'Invalid address' : null,
+                    !val.contains(':') ? 'Invalid address' : null,
                 onSaved: (val) => _apiAddress = val,
                 initialValue: "88.116.5.26:4640",
               ),
               new TextFormField(
                 decoration: new InputDecoration(labelText: 'E-mail'),
                 validator: (val) =>
-                //!val.contains('@') || !val.contains(".") ? 'Invalid e-mail address' : null,
-                val.isEmpty ? 'Invalid e-mail address' : null,
+                    //!val.contains('@') || !val.contains(".") ? 'Invalid e-mail address' : null,
+                    val.isEmpty ? 'Invalid e-mail address' : null,
                 onSaved: (val) => _email = val,
                 initialValue: "PV20",
               ),
               new TextFormField(
                 decoration: new InputDecoration(labelText: 'Password'),
                 validator: (val) =>
-                val.length < 3 ? 'Password too short.' : null,
+                    val.length < 3 ? 'Password too short.' : null,
                 onSaved: (val) => _password = val,
                 obscureText: true,
                 initialValue: "w9A7d7B2Xzhq74",
               ),
               new Container(
-                child: new RaisedButton(
-                  onPressed: _submit,
-                  child: new Text('Login',style: new TextStyle(
-                      color: Colors.white
-                  )),
-                  color: Colors.pinkAccent
-                ),
-                  margin: new EdgeInsets.only(
-                      top: 16.0
-                  )
-              ),
+                  child: new RaisedButton(
+                      onPressed: _submit,
+                      child: new Text('Login',
+                          style: new TextStyle(color: Colors.white)),
+                      color: Colors.pinkAccent),
+                  margin: new EdgeInsets.only(top: 16.0)),
             ],
           ),
         ),
