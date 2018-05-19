@@ -2,8 +2,13 @@ name: healthbook
 description: A new Flutter application.
 
 dependencies:
+  http: '^0.11.3+16'
   flutter:
     sdk: flutter
+  shared_preferences: "0.4.1"
+  tuple: "^1.0.1"
+  crypto: any
+  image_picker: "^0.4.1"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
