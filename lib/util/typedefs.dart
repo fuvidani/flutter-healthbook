@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:healthbook/model/models.dart';
 
-typedef MedicalInfoAdder(MedicalInformation medicalInfo);
-typedef SharingPermissionUpdater(List<SharingPermission> permissions);
+typedef Future<bool> MedicalInfoAdder(MedicalInformation medicalInfo);
+typedef Future<bool> SharingPermissionUpdater(
+    List<SharingPermission> permissions);

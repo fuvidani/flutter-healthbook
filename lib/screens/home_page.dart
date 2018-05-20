@@ -33,7 +33,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _loadLists();
+  }
 
+  _loadLists() {
     Future.wait([
       widget.medicalInfoRepository.loadMedicalInfoEntries(),
       widget.medicalQueryRepository.loadRelevantQueries()
@@ -127,5 +130,17 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void addMedicalInfo(MedicalInformation medicalInfo) {}
+  Future<bool> addMedicalInfo(MedicalInformation medicalInfo) {
+    return widget.medicalInfoRepository
+        .saveMedicalInformation(medicalInfo)
+        .then((bool success) {
+      if (success) {
+        setState(() {
+          appState.isLoading = true;
+        });
+        _loadLists();
+      }
+      return success;
+    });
+  }
 }

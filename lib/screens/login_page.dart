@@ -89,50 +89,52 @@ class _LoginPageState extends State<LoginPage> {
       key: _scaffoldKey,
       appBar: new AppBar(
         title: new Text(widget.title),
-        centerTitle: false,
       ),
       body: new Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(0.0),
         child: new Form(
           key: formKey,
-          child: new Column(
-            children: [
-              new TextFormField(
-                decoration: new InputDecoration(labelText: 'Server address'),
-                validator: (val) =>
-                    !val.contains(':') ? 'Invalid address' : null,
-                onSaved: (val) => _apiAddress = val,
-                initialValue: "88.116.5.26:4640",
-              ),
-              new TextFormField(
-                decoration: new InputDecoration(labelText: 'E-mail'),
-                validator: (val) =>
-                    //!val.contains('@') || !val.contains(".") ? 'Invalid e-mail address' : null,
-                    val.trim().isEmpty ? 'Invalid e-mail address' : null,
-                onSaved: (val) => _email = val,
-                initialValue: "PV20",
-              ),
-              new TextFormField(
-                decoration: new InputDecoration(labelText: 'Password'),
-                validator: (val) =>
-                    val.length < 3 ? 'Password too short.' : null,
-                onSaved: (val) => _password = val,
-                obscureText: true,
-                initialValue: "w9A7d7B2Xzhq74",
-              ),
-              new Container(
-                  child: isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                          key: HealthBookKeys.loginLoading,
-                        ))
-                      : new RaisedButton(
-                          onPressed: _submit,
-                          child: new Text('Login',
-                              style: new TextStyle(color: Colors.white)),
-                          color: Colors.pinkAccent),
-                  margin: new EdgeInsets.only(top: 16.0)),
-            ],
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: new Column(
+              children: [
+                new TextFormField(
+                  decoration: new InputDecoration(labelText: 'Server address'),
+                  validator: (val) =>
+                      !val.contains(':') ? 'Invalid address' : null,
+                  onSaved: (val) => _apiAddress = val,
+                  initialValue: "88.116.5.26:4640",
+                ),
+                new TextFormField(
+                  decoration: new InputDecoration(labelText: 'E-mail'),
+                  validator: (val) =>
+                      //!val.contains('@') || !val.contains(".") ? 'Invalid e-mail address' : null,
+                      val.trim().isEmpty ? 'Invalid e-mail address' : null,
+                  onSaved: (val) => _email = val,
+                  initialValue: "PV20",
+                ),
+                new TextFormField(
+                  decoration: new InputDecoration(labelText: 'Password'),
+                  validator: (val) =>
+                      val.length < 3 ? 'Password too short.' : null,
+                  onSaved: (val) => _password = val,
+                  obscureText: true,
+                  initialValue: "w9A7d7B2Xzhq74",
+                ),
+                new Container(
+                    child: isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                            key: HealthBookKeys.loginLoading,
+                          ))
+                        : new RaisedButton(
+                            onPressed: _submit,
+                            child: new Text('Login',
+                                style: new TextStyle(color: Colors.white)),
+                            color: Colors.pinkAccent),
+                    margin: new EdgeInsets.only(top: 16.0)),
+              ],
+            ),
           ),
         ),
       ),

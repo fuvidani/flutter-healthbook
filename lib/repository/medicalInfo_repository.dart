@@ -16,7 +16,7 @@ class MedicalInfoRepositoryFlutter implements MedicalInfoRepository {
   }
 
   @override
-  Future<bool> saveMedicalInformation(MedicalInformation medicalInfo) {
+  Future<bool> saveMedicalInformation(MedicalInformation medicalInfo) async {
     return webClient.postNewMedicalInformationEntry(medicalInfo);
   }
 }

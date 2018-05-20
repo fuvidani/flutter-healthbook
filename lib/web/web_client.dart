@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:healthbook/model/models.dart';
 import 'package:healthbook/util/test_data.dart';
@@ -7,6 +8,8 @@ class WebClient {
   final Duration delay;
 
   const WebClient([this.delay = const Duration(milliseconds: 3000)]);
+
+  static Random random = new Random(12312423);
 
   Future<List<MedicalInformation>> fetchMedicalInformationEntries() async {
     return Future.delayed(
@@ -37,7 +40,9 @@ class WebClient {
 
   Future<bool> postNewMedicalInformationEntry(
       MedicalInformation medicalInfo) async {
-    return Future.value(true);
+    print(
+        "MedicalInfo (user Id: ${medicalInfo.userId}, title: ${medicalInfo.title}, description: ${medicalInfo.description}, tags: ${medicalInfo.tags}, image: omitted)");
+    return Future.delayed(const Duration(seconds: 2), () => random.nextBool());
   }
 
   Future<bool> postSharingPermissions(

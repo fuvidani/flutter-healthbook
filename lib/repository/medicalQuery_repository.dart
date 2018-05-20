@@ -11,12 +11,13 @@ class MedicalQueryRepositoryFlutter implements MedicalQueryRepository {
   });
 
   @override
-  Future<List<RelevantQueryData>> loadRelevantQueries() {
+  Future<List<RelevantQueryData>> loadRelevantQueries() async {
     return webClient.fetchRelevantQueries();
   }
 
   @override
-  Future<bool> saveSharingPermissions(List<SharingPermission> permissions) {
+  Future<bool> saveSharingPermissions(
+      List<SharingPermission> permissions) async {
     return webClient.postSharingPermissions(permissions);
   }
 }
