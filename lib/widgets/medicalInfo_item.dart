@@ -7,29 +7,30 @@ class MedicalInfoItem extends StatelessWidget {
   final GestureTapCallback onTap;
   final MedicalInformation medicalInformation;
 
-  MedicalInfoItem({
-    Key key,
-    @required this.onTap,
-    @required this.medicalInformation
-  }) : super(key: key);
+  MedicalInfoItem(
+      {Key key, @required this.onTap, @required this.medicalInformation})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      title: Text(
-        medicalInformation.title,
-        key: HealthBookKeys.medicalInfoItemTitle(medicalInformation.id),
-        style: Theme.of(context).textTheme.title,
+    return new Container(
+      child: ListTile(
+        onTap: onTap,
+        title: Text(
+          medicalInformation.title,
+          key: HealthBookKeys.medicalInfoItemTitle(medicalInformation.id),
+          style: Theme.of(context).textTheme.title,
+        ),
+        subtitle: Text(
+          medicalInformation.description,
+          key: HealthBookKeys.medicalInfoItemDescription(medicalInformation.id),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.body1,
+        ),
       ),
-      subtitle: Text(
-        medicalInformation.description,
-        key: HealthBookKeys.medicalInfoItemDescription(medicalInformation.id),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.subhead,
-      ),
+      decoration:
+          new BoxDecoration(border: new Border(bottom: new BorderSide(color: Colors.grey[300]))),
     );
   }
-
 }

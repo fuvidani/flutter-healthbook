@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:healthbook/model/models.dart';
 import 'package:healthbook/repository/repository.dart';
+import 'package:healthbook/screens/add_page.dart';
 import 'package:healthbook/util/keys.dart';
 import 'package:healthbook/util/routes.dart';
 import 'package:healthbook/widgets/extra_actions_button.dart';
@@ -56,8 +57,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  _newMedicalInformation() {}
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -84,13 +83,23 @@ class _HomePageState extends State<HomePage> {
               addInfo: addMedicalInfo,
             )
           : new Text("Hello"),
-      floatingActionButton: new FloatingActionButton(
-        key: HealthBookKeys.addMedicalInfoFab,
-        onPressed: _newMedicalInformation,
-        tooltip: 'Add new medical information',
-        child: new Icon(Icons.add),
-        backgroundColor: Colors.pinkAccent,
-      ),
+      floatingActionButton: activeTab == AppTab.MedicalInformationEntries
+          ? new FloatingActionButton(
+              key: HealthBookKeys.addMedicalInfoFab,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            new AddMedicalInfoPage(
+                              infoAdder: addMedicalInfo,
+                            )));
+              },
+              tooltip: 'Add new medical information',
+              child: new Icon(Icons.add),
+              backgroundColor: Colors.pinkAccent,
+            )
+          : null,
       bottomNavigationBar: BottomNavigationBar(
         key: HealthBookKeys.tabs,
         currentIndex: AppTab.values.indexOf(activeTab),

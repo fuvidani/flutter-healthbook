@@ -13,6 +13,17 @@ class WebClient {
         delay,
         () => [
               TestDataProvider.testMedicalInfo1,
+              TestDataProvider.testMedicalInfo2,
+              TestDataProvider.testMedicalInfo3,
+              TestDataProvider.testMedicalInfo4,
+              TestDataProvider.testMedicalInfo1,
+              TestDataProvider.testMedicalInfo2,
+              TestDataProvider.testMedicalInfo3,
+              TestDataProvider.testMedicalInfo4,
+              TestDataProvider.testMedicalInfo1,
+              TestDataProvider.testMedicalInfo2,
+              TestDataProvider.testMedicalInfo3,
+              TestDataProvider.testMedicalInfo4,
             ]);
   }
 

@@ -5,6 +5,8 @@ class HealthBookKeys {
   static final addMedicalInfoFab = const Key('__addMedicalInfoFab__');
   static final snackbar = const Key('__snackbar__');
 
+  static final loginLoading = const Key('__loginLoading__');
+
   // MedicalInformationEntries
   static final medicalInfoList = const Key('__medicalInfoList__');
   static final medicalInfoLoading = const Key('__medicalInfoLoading__');
@@ -20,4 +22,11 @@ class HealthBookKeys {
   // Extra Actions
   static final extraActionsButton = const Key('__extraActionsButton__');
   static final logout = const Key('__logout__');
+
+  // Details Screen
+  static final medicalInfoDetailsScreen = const Key('__medicalInfoDetailsScreen__');
+
+  // Add Screen
+  static final addMedicalInfoScreen = const Key('__addMedicalInfoScreen__');
+  static final saveNewMedicalInfo = const Key('__saveNewMedicalInfo__');
 }

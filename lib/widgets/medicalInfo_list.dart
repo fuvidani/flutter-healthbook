@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:healthbook/model/models.dart';
+import 'package:healthbook/screens/details_page.dart';
 import 'package:healthbook/util/keys.dart';
 import 'package:healthbook/util/typedefs.dart';
 import 'package:healthbook/widgets/medicalInfo_item.dart';
@@ -32,7 +33,15 @@ class MedicalInfoList extends StatelessWidget {
                 return MedicalInfoItem(
                   medicalInformation: medicalInfo,
                   onTap: () {
-                    print("TAP");
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) {
+                          return MedicalInfoDetailsPage(
+                            medicalInformation: medicalInfo,
+                          );
+                        },
+                      ),
+                    );
                   },
                 );
               },

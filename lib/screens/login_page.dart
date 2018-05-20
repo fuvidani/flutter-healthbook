@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthbook/model/models.dart';
 import 'package:healthbook/util/constants.dart';
+import 'package:healthbook/util/keys.dart';
 import 'package:healthbook/util/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +21,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
   final formKey = new GlobalKey<FormState>();
+  bool isLoading = false;
   String _apiAddress;
   String _email;
   String _password;
@@ -30,10 +31,17 @@ class _LoginPageState extends State<LoginPage> {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (form.validate()) {
       form.save();
+      setState(() {
+        isLoading = true;
+      });
       _performLogin().then((bool success) {
         if (success) {
           Navigator.pushNamedAndRemoveUntil(
               context, HealthBookRoutes.home, (_) => false);
+        } else {
+          setState(() {
+            isLoading = false;
+          });
         }
       });
     }
@@ -100,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: new InputDecoration(labelText: 'E-mail'),
                 validator: (val) =>
                     //!val.contains('@') || !val.contains(".") ? 'Invalid e-mail address' : null,
-                    val.isEmpty ? 'Invalid e-mail address' : null,
+                    val.trim().isEmpty ? 'Invalid e-mail address' : null,
                 onSaved: (val) => _email = val,
                 initialValue: "PV20",
               ),
@@ -113,11 +121,16 @@ class _LoginPageState extends State<LoginPage> {
                 initialValue: "w9A7d7B2Xzhq74",
               ),
               new Container(
-                  child: new RaisedButton(
-                      onPressed: _submit,
-                      child: new Text('Login',
-                          style: new TextStyle(color: Colors.white)),
-                      color: Colors.pinkAccent),
+                  child: isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                          key: HealthBookKeys.loginLoading,
+                        ))
+                      : new RaisedButton(
+                          onPressed: _submit,
+                          child: new Text('Login',
+                              style: new TextStyle(color: Colors.white)),
+                          color: Colors.pinkAccent),
                   margin: new EdgeInsets.only(top: 16.0)),
             ],
           ),
