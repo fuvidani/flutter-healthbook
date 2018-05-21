@@ -9,6 +9,7 @@ import 'package:healthbook/util/keys.dart';
 import 'package:healthbook/util/routes.dart';
 import 'package:healthbook/widgets/extra_actions_button.dart';
 import 'package:healthbook/widgets/medicalInfo_list.dart';
+import 'package:healthbook/widgets/medical_query_list.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -42,9 +43,7 @@ class _HomePageState extends State<HomePage> {
       widget.medicalQueryRepository.loadRelevantQueries()
     ]).then((List<List<Object>> results) {
       setState(() {
-        appState = AppState(
-            medicalInformationEntries: results.first,
-            medicalQueries: results.last);
+        appState = AppState.withData(results.first, results.last);
       });
     }).catchError((e) {
       print(e);
@@ -85,7 +84,13 @@ class _HomePageState extends State<HomePage> {
               loading: appState.isLoading,
               addInfo: addMedicalInfo,
             )
-          : new Text("Hello"),
+          : MedicalQueryList(
+              queries: appState.queriesToMedicalInfoMap,
+              sharingPermissionUpdater: updateSharingPermission,
+              requestedDataSetItemUpdater: requestedDataSetCheckBoxUpdate,
+              checkBoxStates: appState.checkBoxStates,
+              isLoading: appState.isLoading,
+            ),
       floatingActionButton: activeTab == AppTab.MedicalInformationEntries
           ? new FloatingActionButton(
               key: HealthBookKeys.addMedicalInfoFab,
@@ -141,6 +146,17 @@ class _HomePageState extends State<HomePage> {
         _loadLists();
       }
       return success;
+    });
+  }
+
+  Future<bool> updateSharingPermission(List<SharingPermission> permissions) {
+    return widget.medicalQueryRepository.saveSharingPermissions(permissions);
+  }
+
+  void requestedDataSetCheckBoxUpdate(
+      RequestedDataSetValues values, bool shared) {
+    setState(() {
+      appState.checkBoxStates[values.query][values.medicalInformation] = shared;
     });
   }
 }

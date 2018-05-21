@@ -19,14 +19,10 @@ class WebClient {
               TestDataProvider.testMedicalInfo2,
               TestDataProvider.testMedicalInfo3,
               TestDataProvider.testMedicalInfo4,
-              TestDataProvider.testMedicalInfo1,
-              TestDataProvider.testMedicalInfo2,
-              TestDataProvider.testMedicalInfo3,
-              TestDataProvider.testMedicalInfo4,
-              TestDataProvider.testMedicalInfo1,
-              TestDataProvider.testMedicalInfo2,
-              TestDataProvider.testMedicalInfo3,
-              TestDataProvider.testMedicalInfo4,
+              TestDataProvider.testMedicalInfo5,
+              TestDataProvider.testMedicalInfo6,
+              TestDataProvider.testMedicalInfo7,
+              TestDataProvider.testMedicalInfo8,
             ]);
   }
 
@@ -35,6 +31,9 @@ class WebClient {
         delay,
         () => [
               TestDataProvider.testRelevantQueryData1,
+              TestDataProvider.testRelevantQueryData2,
+              TestDataProvider.testRelevantQueryData3,
+              TestDataProvider.testRelevantQueryData4,
             ]);
   }
 

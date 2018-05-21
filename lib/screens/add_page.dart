@@ -172,8 +172,6 @@ class _AddMedicalInfoPageState extends State<AddMedicalInfoPage> {
               _imageFile = snapshot.data;
               return new Image.file(snapshot.data);
             }
-          } else if (snapshot.error != null) {
-            return const Text('Error choosing image. :(');
           } else {
             return _imageChooserButton();
           }

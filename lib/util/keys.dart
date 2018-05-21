@@ -14,6 +14,23 @@ class HealthBookKeys {
   static final medicalInfoItemTitle = (String id) => Key('medicalInfoItem__${id}__Title');
   static final medicalInfoItemDescription = (String id) => Key('medicalInfoItem__${id}__Description');
 
+  // Medical query entries
+  static final medicalQueryList = const Key('__medicalQueryList__');
+  static final medicalQueryListLoading = const Key('__medicalQueryLoading__');
+  static final medicalQueryItem = (String id) => Key('medicalQueryItem__$id');
+  static final medicalQueryItemTitle = (String id) => Key('medicalQueryItem__${id}__Title');
+  static final medicalQueryItemDescription = (String id) => Key('medicalQueryItem__${id}__Description');
+  static final medicalQueryItemInstituteName = (String id) => Key('medicalQueryItem__${id}__InstituteName');
+  static final medicalQueryItemPrice = (String id) => Key('medicalQueryItem__${id}__Price');
+
+
+  // Requested data set entries
+  static final requestedDataSetItemList = const Key('__requestedDataSetItemList__');
+  static final requestedDataSetItem = (String id) => Key('requestedDataSetItem__$id');
+  static final requestedDataSetTitle = (String id) => Key('requestedDataSetItem__${id}__Title');
+  static final requestedDataSetItemCheckbox =
+      (String id) => Key('requestedDataSetItem__${id}__Checkbox');
+
   // Tabs
   static final tabs = const Key('__tabs__');
   static final medicalInfoTab = const Key('__medicalInfoTab__');

@@ -8,12 +8,37 @@ class AppState {
   bool isLoading;
   List<MedicalInformation> medicalInformationEntries;
   List<RelevantQueryData> medicalQueries;
+  Map<RelevantQueryData, Map<MedicalInformation, bool>> checkBoxStates;
+  Map<RelevantQueryData, List<MedicalInformation>> queriesToMedicalInfoMap;
 
   AppState({
     this.isLoading = false,
     this.medicalInformationEntries = const [],
     this.medicalQueries = const [],
+    this.checkBoxStates = const {},
+    this.queriesToMedicalInfoMap = const {},
   });
+
+  AppState.withData(this.medicalInformationEntries, this.medicalQueries) {
+    this.isLoading = false;
+    this.checkBoxStates = {};
+    this.queriesToMedicalInfoMap = {};
+    medicalQueries.forEach((query) {
+      checkBoxStates[query] = {};
+      final List<MedicalInformation> correspondingMedicalEntries = new List();
+      query.medicalInfo.forEach((tuple) {
+        final String infoId = tuple.item1;
+        final MedicalInformation information = medicalInformationEntries
+            .singleWhere((element) => element.id == infoId, orElse: () {
+          print('No medical information with id $infoId found in the entries!');
+          return null;
+        });
+        correspondingMedicalEntries.add(information);
+        checkBoxStates[query][information] = false;
+      });
+      queriesToMedicalInfoMap[query] = correspondingMedicalEntries;
+    });
+  }
 
   factory AppState.loading() => AppState(isLoading: true);
 
@@ -24,17 +49,19 @@ class AppState {
           runtimeType == other.runtimeType &&
           isLoading == other.isLoading &&
           medicalInformationEntries == other.medicalInformationEntries &&
-          medicalQueries == other.medicalQueries;
+          medicalQueries == other.medicalQueries &&
+          checkBoxStates == other.checkBoxStates;
 
   @override
   int get hashCode =>
       isLoading.hashCode ^
       medicalInformationEntries.hashCode ^
-      medicalQueries.hashCode;
+      medicalQueries.hashCode ^
+      checkBoxStates.hashCode;
 
   @override
   String toString() {
-    return 'AppState{isLoading: $isLoading, medicalInformationEntries: $medicalInformationEntries, medicalQueries: $medicalQueries}';
+    return 'AppState{isLoading: $isLoading, medicalInformationEntries: $medicalInformationEntries, medicalQueries: $medicalQueries, checkBoxStates: $checkBoxStates}';
   }
 
   Future logout() async {
@@ -169,3 +196,29 @@ class SharingPermission {
 enum AppTab { MedicalInformationEntries, MedicalQueries }
 
 enum ExtraAction { logout }
+
+class RequestedDataSetValues {
+  RelevantQueryData query;
+  MedicalInformation medicalInformation;
+  bool shared;
+
+  RequestedDataSetValues(this.query, this.medicalInformation, this.shared);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RequestedDataSetValues &&
+          runtimeType == other.runtimeType &&
+          query == other.query &&
+          medicalInformation == other.medicalInformation &&
+          shared == other.shared;
+
+  @override
+  int get hashCode =>
+      query.hashCode ^ medicalInformation.hashCode ^ shared.hashCode;
+
+  @override
+  String toString() {
+    return 'RequestedDataSetValues{query: $query, medicalInformation: $medicalInformation, shared: $shared}';
+  }
+}
