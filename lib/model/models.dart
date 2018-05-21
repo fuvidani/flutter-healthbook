@@ -83,6 +83,15 @@ class MedicalInformation {
   MedicalInformation(this.id, this.userId, this.title, this.description,
       this.image, this.tags);
 
+  Map<String, dynamic> toJson() => {
+        'id': null,
+        'userId': userId,
+        'title': title,
+        'description': description,
+        'image': image,
+        'tags': tags
+      };
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -175,6 +184,12 @@ class SharingPermission {
 
   SharingPermission(this.id, this.information, this.queryId);
 
+  Map<String, dynamic> toJson() => {
+        'id': null,
+        'information': information,
+        'queryId': queryId,
+      };
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -220,5 +235,30 @@ class RequestedDataSetValues {
   @override
   String toString() {
     return 'RequestedDataSetValues{query: $query, medicalInformation: $medicalInformation, shared: $shared}';
+  }
+}
+
+class RequestProperties {
+  final String apiAddress;
+  final String apiToken;
+  final String userId;
+
+  RequestProperties(this.apiAddress, this.apiToken, this.userId);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RequestProperties &&
+          runtimeType == other.runtimeType &&
+          apiAddress == other.apiAddress &&
+          apiToken == other.apiToken &&
+          userId == other.userId;
+
+  @override
+  int get hashCode => apiAddress.hashCode ^ apiToken.hashCode ^ userId.hashCode;
+
+  @override
+  String toString() {
+    return 'RequestProperties{apiAddress: $apiAddress, apiToken: $apiToken, userId: $userId}';
   }
 }

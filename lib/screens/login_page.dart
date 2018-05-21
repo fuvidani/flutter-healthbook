@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthbook/model/models.dart';
@@ -52,10 +53,10 @@ class _LoginPageState extends State<LoginPage> {
     print(jsonEncode(request.toJson()));
     try {
       http.Response response = await http.post(
-          'http://$_apiAddress/api/auth/login',
+          '$_apiAddress/api/auth/login',
           headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
+            HttpHeaders.CONTENT_TYPE: ContentType.JSON.value,
+            HttpHeaders.ACCEPT: ContentType.JSON.value,
           },
           body: jsonEncode(request.toJson()));
       if (response != null && response.statusCode != 200) {
@@ -101,9 +102,9 @@ class _LoginPageState extends State<LoginPage> {
                 new TextFormField(
                   decoration: new InputDecoration(labelText: 'Server address'),
                   validator: (val) =>
-                      !val.contains(':') ? 'Invalid address' : null,
+                      !val.contains(':') || (!val.contains('http://') && !val.contains('https://'))? 'Invalid address' : null,
                   onSaved: (val) => _apiAddress = val,
-                  initialValue: "88.116.5.26:4640",
+                  initialValue: "http://88.116.5.26:4640",
                 ),
                 new TextFormField(
                   decoration: new InputDecoration(labelText: 'E-mail'),
