@@ -46,6 +46,6 @@ class WebClient {
 
   Future<bool> postSharingPermissions(
       List<SharingPermission> permissions) async {
-    return Future.value(true);
+    return Future.delayed(const Duration(seconds: 1), () => random.nextBool());
   }
 }

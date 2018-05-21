@@ -30,6 +30,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   AppState appState = AppState.loading();
   AppTab activeTab = AppTab.MedicalInformationEntries;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
   @override
   void initState() {
@@ -62,6 +63,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         title: new Text(widget.title),
         actions: [
@@ -135,6 +137,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _reloadEverything() {
+    setState(() {
+      appState.isLoading = true;
+    });
+    _loadLists();
+  }
+
   Future<bool> addMedicalInfo(MedicalInformation medicalInfo) {
     return widget.medicalInfoRepository
         .saveMedicalInformation(medicalInfo)
@@ -150,7 +159,28 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<bool> updateSharingPermission(List<SharingPermission> permissions) {
-    return widget.medicalQueryRepository.saveSharingPermissions(permissions);
+    if (permissions.isNotEmpty) {
+      return widget.medicalQueryRepository
+          .saveSharingPermissions(permissions)
+          .then((bool isSuccess) {
+        final String snackBarMessage = isSuccess
+            ? "Selected entries successfully shared!"
+            : "Sharing unsuccessful. Please try again.";
+        final snackBar = new SnackBar(
+          content: new Text(snackBarMessage),
+          duration: Duration(seconds: 3),
+        );
+        _scaffoldKey.currentState.showSnackBar(snackBar);
+        if (isSuccess) {
+          _reloadEverything();
+        }
+      });
+    }
+    final snackBar = new SnackBar(
+      content: new Text('No entry selected'),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+    return Future.value(true);
   }
 
   void requestedDataSetCheckBoxUpdate(
