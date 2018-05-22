@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +33,13 @@ class MedicalInfoDetailsPage extends StatelessWidget {
   }
 
   Widget _imageSection() {
-    Uint8List list = Base64Decoder().convert(medicalInformation.image);
+    if (medicalInformation.image == null || medicalInformation.image.isEmpty) {
+      return Container();
+    }
     return new Container(
       padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
       child: Image.memory(
-        list,
+        Base64Decoder().convert(medicalInformation.image),
         fit: BoxFit.fitWidth,
       ),
     );
@@ -80,11 +81,17 @@ class MedicalInfoDetailsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _sectionTitle('Description'),
-                new Text(
-                  medicalInformation.description,
-                  style: Theme.of(context).textTheme.body1,
-                  softWrap: true,
-                ),
+                medicalInformation.description.trim().isEmpty
+                    ? new Text(
+                        'No description provided.',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                        softWrap: true,
+                      )
+                    : new Text(
+                        medicalInformation.description,
+                        style: Theme.of(context).textTheme.body1,
+                        softWrap: true,
+                      ),
               ],
             ),
           ),

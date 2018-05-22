@@ -75,6 +75,15 @@ class TestDataProvider {
       testMedicalInfo4.tags
   );
 
+  static final testMedicalInfo9 = MedicalInformation(
+      "someId9",
+      testMedicalInfo1.userId,
+      "A minimalist example",
+      "",
+      "",
+      ['noThx']
+  );
+
   static final testRelevantQueryData1 = RelevantQueryData(
     "someQueryId",
     "Bayer Query 1",
@@ -96,7 +105,8 @@ class TestDataProvider {
       [Tuple2(testMedicalInfo5.id,testMedicalInfo5.title),
       Tuple2(testMedicalInfo6.id,testMedicalInfo6.title),
       Tuple2(testMedicalInfo7.id,testMedicalInfo7.title),
-      Tuple2(testMedicalInfo8.id,testMedicalInfo8.title),]
+      Tuple2(testMedicalInfo8.id,testMedicalInfo8.title),
+      Tuple2(testMedicalInfo9.id,testMedicalInfo9.title),]
   );
 
   static final testRelevantQueryData3 = RelevantQueryData(

@@ -58,6 +58,7 @@ class WebClient {
               TestDataProvider.testMedicalInfo6,
               TestDataProvider.testMedicalInfo7,
               TestDataProvider.testMedicalInfo8,
+              TestDataProvider.testMedicalInfo9,
             ]);
   }
 

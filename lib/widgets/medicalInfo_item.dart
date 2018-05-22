@@ -16,25 +16,39 @@ class MedicalInfoItem extends StatelessWidget {
     return new Container(
       child: ListTile(
         onTap: onTap,
-        title: Hero(
-          tag:
-              HealthBookKeys.medicalInfoItemTitleHeroTag(medicalInformation.id),
-          child: Text(
-            medicalInformation.title,
-            key: HealthBookKeys.medicalInfoItemTitle(medicalInformation.id),
-            style: Theme.of(context).textTheme.title,
-          ),
-        ),
-        subtitle: Text(
-          medicalInformation.description,
-          key: HealthBookKeys.medicalInfoItemDescription(medicalInformation.id),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.body1,
-        ),
+        title: _title(context),
+        subtitle: _subTitle(context),
       ),
       decoration: new BoxDecoration(
           border: new Border(bottom: new BorderSide(color: Colors.grey[300]))),
     );
+  }
+
+  Widget _title(BuildContext context) {
+    return Hero(
+      tag: HealthBookKeys.medicalInfoItemTitleHeroTag(medicalInformation.id),
+      child: Text(
+        medicalInformation.title,
+        key: HealthBookKeys.medicalInfoItemTitle(medicalInformation.id),
+        style: Theme.of(context).textTheme.title,
+      ),
+    );
+  }
+
+  Widget _subTitle(BuildContext context) {
+    return medicalInformation.description.isEmpty
+        ? new Text(
+            'No description provided.',
+            style: TextStyle(fontStyle: FontStyle.italic),
+            softWrap: true,
+          )
+        : Text(
+            medicalInformation.description,
+            key: HealthBookKeys
+                .medicalInfoItemDescription(medicalInformation.id),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.body1,
+          );
   }
 }
