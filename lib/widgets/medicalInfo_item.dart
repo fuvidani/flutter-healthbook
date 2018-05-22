@@ -16,10 +16,13 @@ class MedicalInfoItem extends StatelessWidget {
     return new Container(
       child: ListTile(
         onTap: onTap,
-        title: Text(
-          medicalInformation.title,
-          key: HealthBookKeys.medicalInfoItemTitle(medicalInformation.id),
-          style: Theme.of(context).textTheme.title,
+        title: Hero(
+          tag: HealthBookKeys.medicalInfoItemTitleHeroTag(medicalInformation.id),
+          child: Text(
+            medicalInformation.title,
+            key: HealthBookKeys.medicalInfoItemTitle(medicalInformation.id),
+            style: Theme.of(context).textTheme.title,
+          ),
         ),
         subtitle: Text(
           medicalInformation.description,

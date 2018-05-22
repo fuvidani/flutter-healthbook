@@ -54,9 +54,12 @@ class MedicalInfoDetailsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _sectionTitle('Title'),
-                new Text(
-                  medicalInformation.title,
-                  style: Theme.of(context).textTheme.title,
+                Hero(
+                  tag: HealthBookKeys.medicalInfoItemTitleHeroTag(medicalInformation.id),
+                  child: new Text(
+                    medicalInformation.title,
+                    style: Theme.of(context).textTheme.title,
+                  ),
                 ),
               ],
             ),

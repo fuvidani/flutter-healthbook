@@ -13,6 +13,7 @@ class HealthBookKeys {
   static final medicalInfoItem = (String id) => Key('medicalInfoItem__$id');
   static final medicalInfoItemTitle = (String id) => Key('medicalInfoItem__${id}__Title');
   static final medicalInfoItemDescription = (String id) => Key('medicalInfoItem__${id}__Description');
+  static final medicalInfoItemTitleHeroTag = (String id) => Key('medicalInfoItemTitle__${id}__Tag');
 
   // Medical query entries
   static final medicalQueryList = const Key('__medicalQueryList__');
