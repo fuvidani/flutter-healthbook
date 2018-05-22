@@ -55,7 +55,8 @@ class MedicalInfoDetailsPage extends StatelessWidget {
               children: [
                 _sectionTitle('Title'),
                 Hero(
-                  tag: HealthBookKeys.medicalInfoItemTitleHeroTag(medicalInformation.id),
+                  tag: HealthBookKeys
+                      .medicalInfoItemTitleHeroTag(medicalInformation.id),
                   child: new Text(
                     medicalInformation.title,
                     style: Theme.of(context).textTheme.title,

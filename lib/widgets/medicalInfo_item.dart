@@ -17,7 +17,8 @@ class MedicalInfoItem extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: Hero(
-          tag: HealthBookKeys.medicalInfoItemTitleHeroTag(medicalInformation.id),
+          tag:
+              HealthBookKeys.medicalInfoItemTitleHeroTag(medicalInformation.id),
           child: Text(
             medicalInformation.title,
             key: HealthBookKeys.medicalInfoItemTitle(medicalInformation.id),
@@ -32,8 +33,8 @@ class MedicalInfoItem extends StatelessWidget {
           style: Theme.of(context).textTheme.body1,
         ),
       ),
-      decoration:
-          new BoxDecoration(border: new Border(bottom: new BorderSide(color: Colors.grey[300]))),
+      decoration: new BoxDecoration(
+          border: new Border(bottom: new BorderSide(color: Colors.grey[300]))),
     );
   }
 }
