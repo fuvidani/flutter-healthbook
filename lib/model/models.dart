@@ -127,7 +127,7 @@ class AuthRequest {
 
   // TODO change json attribute from username to email for production
   Map<String, dynamic> toJson() => {
-        'username': email,
+        'email': email,
         'password': password,
       };
 }

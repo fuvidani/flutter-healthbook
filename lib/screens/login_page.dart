@@ -20,8 +20,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
   final formKey = new GlobalKey<FormState>();
+  final HttpClient _httpClient = new HttpClient();
   bool isLoading = false;
   String _apiAddress;
   String _email;
@@ -49,36 +50,41 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<bool> _performLogin() async {
-    AuthRequest request = new AuthRequest(_email, _password);
+    _httpClient.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+    final http.IOClient ioClient = new http.IOClient(_httpClient);
+    final AuthRequest request = new AuthRequest(_email, _password);
     print(jsonEncode(request.toJson()));
     try {
-      http.Response response = await http.post(
-          '$_apiAddress/api/auth/login',
+      final http.Response response = await ioClient.post('$_apiAddress/auth',
           headers: {
             HttpHeaders.CONTENT_TYPE: ContentType.JSON.value,
             HttpHeaders.ACCEPT: ContentType.JSON.value,
           },
           body: jsonEncode(request.toJson()));
-      if (response != null && response.statusCode != 200) {
+      final Map data = json.decode(response.body);
+      if (response.statusCode != 200) {
         final snackBar = new SnackBar(
-            content: new Text(response.statusCode == 401
+            content: new Text(response.statusCode == 401 ||
+                    data['message'] != null &&
+                        data['message'].toString() == 'Invalid Credentials'
                 ? "Invalid credentials"
-                : "Backend not avaiable, check connection"));
+                : "Backend not available, check connection"));
         _scaffoldKey.currentState.showSnackBar(snackBar);
         return false;
       } else {
-        Map data = json.decode(response.body);
         final String token = data['token'];
         print(token);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(API_ADDRESS_KEY, _apiAddress);
         await prefs.setString(TOKEN_KEY, token);
-        await prefs.setString(USER_ID_KEY, "12323144");
+        await prefs.setString(USER_ID_KEY, "5b05529ba7b11b0001dddb53");
         return true;
       }
-    } on Exception {
+    } catch (e) {
+      print(e);
       final snackBar = new SnackBar(
-          content: new Text("Backend not avaiable, check connection"));
+          content: new Text("Backend not available, check connection"));
       _scaffoldKey.currentState.showSnackBar(snackBar);
       return false;
     }
@@ -101,19 +107,26 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 new TextFormField(
                   decoration: new InputDecoration(labelText: 'Server address'),
-                  validator: (val) =>
-                      !val.contains(':') || (!val.contains('http://') && !val.contains('https://'))? 'Invalid address' : null,
+                  validator: (val) => !val.contains(':') ||
+                          (!val.contains('http://') &&
+                              !val.contains('https://'))
+                      ? 'Invalid address'
+                      : null,
                   onSaved: (val) => _apiAddress = val,
-                  initialValue: "http://88.116.5.26:4640",
+                  //initialValue: "http://88.116.5.26:4640",
+                  initialValue: "https://128.130.249.111:8443",
+                  enabled: !isLoading,
                 ),
                 new TextFormField(
                   decoration: new InputDecoration(labelText: 'E-mail'),
                   validator: (val) =>
-                  // TODO change validation pattern for production
+                      // TODO change validation pattern for production
                       //!val.contains('@') || !val.contains(".") ? 'Invalid e-mail address' : null,
                       val.trim().isEmpty ? 'Invalid e-mail address' : null,
                   onSaved: (val) => _email = val,
-                  initialValue: "PV20",
+                  //initialValue: "PV20",
+                  initialValue: "test.user@gmail.com",
+                  enabled: !isLoading,
                 ),
                 new TextFormField(
                   decoration: new InputDecoration(labelText: 'Password'),
@@ -121,7 +134,9 @@ class _LoginPageState extends State<LoginPage> {
                       val.length < 3 ? 'Password too short.' : null,
                   onSaved: (val) => _password = val,
                   obscureText: true,
-                  initialValue: "w9A7d7B2Xzhq74",
+                  //initialValue: "w9A7d7B2Xzhq74",
+                  initialValue: "password",
+                  enabled: !isLoading,
                 ),
                 new Container(
                     child: isLoading
