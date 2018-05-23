@@ -109,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                 new TextFormField(
                   decoration: new InputDecoration(labelText: 'E-mail'),
                   validator: (val) =>
+                  // TODO change validation pattern for production
                       //!val.contains('@') || !val.contains(".") ? 'Invalid e-mail address' : null,
                       val.trim().isEmpty ? 'Invalid e-mail address' : null,
                   onSaved: (val) => _email = val,

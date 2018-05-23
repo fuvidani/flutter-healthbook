@@ -125,6 +125,7 @@ class AuthRequest {
 
   AuthRequest(this.email, this.password);
 
+  // TODO change json attribute from username to email for production
   Map<String, dynamic> toJson() => {
         'username': email,
         'password': password,
