@@ -73,12 +73,11 @@ class _LoginPageState extends State<LoginPage> {
         _scaffoldKey.currentState.showSnackBar(snackBar);
         return false;
       } else {
-        final String token = data['token'];
-        print(token);
+        print('User (${data['userId']}) - token ${data['token']}');
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(API_ADDRESS_KEY, _apiAddress);
-        await prefs.setString(TOKEN_KEY, token);
-        await prefs.setString(USER_ID_KEY, "5b05529ba7b11b0001dddb53");
+        await prefs.setString(TOKEN_KEY, data['token']);
+        await prefs.setString(USER_ID_KEY, data['userId']);
         return true;
       }
     } catch (e) {
@@ -113,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                       ? 'Invalid address'
                       : null,
                   onSaved: (val) => _apiAddress = val,
-                  initialValue: "https://128.130.251.181:8443",
+                  initialValue: "https://192.168.0.4:8443",
                   enabled: !isLoading,
                 ),
                 new TextFormField(
