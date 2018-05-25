@@ -25,27 +25,31 @@ class MedicalInfoList extends StatelessWidget {
               child: CircularProgressIndicator(
               key: HealthBookKeys.medicalInfoLoading,
             ))
-          : ListView.builder(
-              key: HealthBookKeys.medicalInfoList,
-              itemCount: medicalInfoList.length,
-              itemBuilder: (BuildContext context, int index) {
-                final medicalInfo = medicalInfoList[index];
-                return MedicalInfoItem(
-                  medicalInformation: medicalInfo,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) {
-                          return MedicalInfoDetailsPage(
-                            medicalInformation: medicalInfo,
-                          );
-                        },
-                      ),
+          : medicalInfoList.isEmpty
+              ? Center(
+                  child: Text('No medical information entries (yet).'),
+                )
+              : ListView.builder(
+                  key: HealthBookKeys.medicalInfoList,
+                  itemCount: medicalInfoList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final medicalInfo = medicalInfoList[index];
+                    return MedicalInfoItem(
+                      medicalInformation: medicalInfo,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return MedicalInfoDetailsPage(
+                                medicalInformation: medicalInfo,
+                              );
+                            },
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
+                ),
     );
   }
 }

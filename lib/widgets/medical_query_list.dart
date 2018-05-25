@@ -28,20 +28,26 @@ class MedicalQueryList extends StatelessWidget {
               child: CircularProgressIndicator(
               key: HealthBookKeys.medicalQueryListLoading,
             ))
-          : ListView.builder(
-              key: HealthBookKeys.medicalQueryList,
-              itemCount: queries.keys.length,
-              itemBuilder: (BuildContext context, int index) {
-                final RelevantQueryData query = queries.keys.toList()[index];
-                return MedicalQueryItem(
-                  relevantMedicalInfoEntries: queries[query],
-                  relevantQueryData: query,
-                  checkBoxState: checkBoxStates[query],
-                  sharingPermissionUpdater: sharingPermissionUpdater,
-                  requestedDataSetItemUpdater: requestedDataSetItemUpdater,
-                );
-              },
-            ),
+          : queries.keys.isEmpty
+              ? Center(
+                  child: Text(
+                      'There are no queries matching yours at the moment.'),
+                )
+              : ListView.builder(
+                  key: HealthBookKeys.medicalQueryList,
+                  itemCount: queries.keys.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final RelevantQueryData query =
+                        queries.keys.toList()[index];
+                    return MedicalQueryItem(
+                      relevantMedicalInfoEntries: queries[query],
+                      relevantQueryData: query,
+                      checkBoxState: checkBoxStates[query],
+                      sharingPermissionUpdater: sharingPermissionUpdater,
+                      requestedDataSetItemUpdater: requestedDataSetItemUpdater,
+                    );
+                  },
+                ),
     );
   }
 }

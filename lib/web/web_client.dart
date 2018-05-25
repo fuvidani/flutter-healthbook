@@ -5,7 +5,6 @@ import 'dart:math';
 
 import 'package:healthbook/model/models.dart';
 import 'package:healthbook/util/constants.dart';
-import 'package:healthbook/util/test_data.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,13 +18,10 @@ class WebClient {
 
   Future<List<MedicalInformation>> fetchMedicalInformationEntries() async {
     return _performRemoteCallForEntries();
-    //return _returnTestMedicalInfoEntries();
   }
 
   Future<List<RelevantQueryData>> fetchRelevantQueries() async {
     return _performRemoteCallForQueries();
-    //return _returnTestQueries();
-    //return Future.value([]);
   }
 
   Future<bool> postNewMedicalInformationEntry(
@@ -33,13 +29,11 @@ class WebClient {
     print(
         "MedicalInfo (user Id: ${medicalInfo.userId}, title: ${medicalInfo.title}, description: ${medicalInfo.description}, tags: ${medicalInfo.tags}, image: omitted)");
     return _remotePostNewMedicalInformationEntry(medicalInfo);
-    //return Future.delayed(const Duration(seconds: 2), () => random.nextBool());
   }
 
   Future<bool> postSharingPermissions(
       List<SharingPermission> permissions) async {
     return _remotePostSharingPermissions(permissions);
-    //return Future.delayed(const Duration(seconds: 1), () => random.nextBool());
   }
 
   Future<RequestProperties> _retrieveRequestProperties() async {
@@ -48,33 +42,6 @@ class WebClient {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return RequestProperties(prefs.getString(API_ADDRESS_KEY),
         prefs.getString(TOKEN_KEY), prefs.getString(USER_ID_KEY));
-  }
-
-  Future<List<MedicalInformation>> _returnTestMedicalInfoEntries() {
-    return Future.delayed(
-        delay,
-        () => [
-              TestDataProvider.testMedicalInfo1,
-              TestDataProvider.testMedicalInfo2,
-              TestDataProvider.testMedicalInfo3,
-              TestDataProvider.testMedicalInfo4,
-              TestDataProvider.testMedicalInfo5,
-              TestDataProvider.testMedicalInfo6,
-              TestDataProvider.testMedicalInfo7,
-              TestDataProvider.testMedicalInfo8,
-              TestDataProvider.testMedicalInfo9,
-            ]);
-  }
-
-  Future<List<RelevantQueryData>> _returnTestQueries() {
-    return Future.delayed(
-        delay,
-        () => [
-              TestDataProvider.testRelevantQueryData1,
-              TestDataProvider.testRelevantQueryData2,
-              TestDataProvider.testRelevantQueryData3,
-              TestDataProvider.testRelevantQueryData4,
-            ]);
   }
 
   Future<List<MedicalInformation>> _performRemoteCallForEntries() async {
