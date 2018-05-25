@@ -13,6 +13,8 @@ class StartUpPage extends StatefulWidget {
 }
 
 class _StartUpPageState extends State<StartUpPage> {
+  final HttpClient _httpClient = new HttpClient();
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -30,12 +32,10 @@ class _StartUpPageState extends State<StartUpPage> {
       if (prefs.get(API_ADDRESS_KEY) != null &&
           prefs.get(TOKEN_KEY) != null &&
           prefs.get(USER_ID_KEY) != null) {
-        // TODO enable token validation check
-        /*_isTokenStillValid(prefs.get(API_ADDRESS_KEY), prefs.get(USER_ID_KEY),
-            prefs.get(USER_ID_KEY)).then((bool isValid) {
+        _isTokenStillValid(prefs.get(API_ADDRESS_KEY), prefs.get(USER_ID_KEY),
+            prefs.get(TOKEN_KEY)).then((bool isValid) {
           isValid ? _navigateToHome() : _navigateToLogin();
-        });*/
-        _navigateToHome();
+        });
       } else {
         _navigateToLogin();
       }
@@ -45,19 +45,21 @@ class _StartUpPageState extends State<StartUpPage> {
   Future<bool> _isTokenStillValid(
       String apiAddress, String userId, String token) async {
     try {
-      http.Response response = await http
+      _httpClient.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      final http.IOClient ioClient = new http.IOClient(_httpClient);
+      http.Response response = await ioClient
           .get("$apiAddress/user/$userId/medicalInformation", headers: {
         HttpHeaders.AUTHORIZATION: "Bearer $token",
         HttpHeaders.ACCEPT: ContentType.JSON.value
       });
       if (response != null && response.statusCode == 200) {
-        print('Api token still valid');
+        print('Token still valid');
         return true;
       }
-      print('Api token seems to be invalid, routing to login...');
       return false;
     } on Exception {
-      print('Exception. Api token seems to be invalid, routing to login...');
+      print('Error while trying to validate token expiry');
       return false;
     }
   }
