@@ -28,30 +28,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+  final GlobalKey<RefreshIndicatorState> _refreshKey = new GlobalKey();
   AppState appState = AppState.loading();
   AppTab activeTab = AppTab.MedicalInformationEntries;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    _loadLists();
+    _onRefresh();
   }
 
-  _loadLists() {
-    Future.wait([
+  Future<List<List<Object>>> _mergedListsFutures() {
+    return Future.wait([
       widget.medicalInfoRepository.loadMedicalInfoEntries(),
       widget.medicalQueryRepository.loadRelevantQueries()
-    ]).then((List<List<Object>> results) {
+    ]);
+  }
+
+  Future<Null> _onRefresh() async {
+    _refreshKey.currentState.show();
+    final Completer<Null> completer = new Completer<Null>();
+    _mergedListsFutures().then((List<List<Object>> results) {
       setState(() {
         appState = AppState.withData(results.first, results.last);
       });
+      completer.complete();
     }).catchError((e) {
       print(e);
       setState(() {
         appState.isLoading = false;
       });
+      completer.complete();
     });
+    return completer.future;
   }
 
   _updateTab(AppTab tab) {
@@ -81,17 +91,25 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: activeTab == AppTab.MedicalInformationEntries
-          ? MedicalInfoList(
-              medicalInfoList: appState.medicalInformationEntries,
-              loading: appState.isLoading,
-              addInfo: addMedicalInfo,
+          ? RefreshIndicator(
+              key: _refreshKey,
+              child: MedicalInfoList(
+                medicalInfoList: appState.medicalInformationEntries,
+                loading: appState.isLoading,
+                addInfo: addMedicalInfo,
+              ),
+              onRefresh: _onRefresh,
             )
-          : MedicalQueryList(
-              queries: appState.queriesToMedicalInfoMap,
-              sharingPermissionUpdater: updateSharingPermission,
-              requestedDataSetItemUpdater: requestedDataSetCheckBoxUpdate,
-              checkBoxStates: appState.checkBoxStates,
-              isLoading: appState.isLoading,
+          : RefreshIndicator(
+              key: _refreshKey,
+              child: MedicalQueryList(
+                queries: appState.queriesToMedicalInfoMap,
+                sharingPermissionUpdater: updateSharingPermission,
+                requestedDataSetItemUpdater: requestedDataSetCheckBoxUpdate,
+                checkBoxStates: appState.checkBoxStates,
+                isLoading: appState.isLoading,
+              ),
+              onRefresh: _onRefresh,
             ),
       floatingActionButton: activeTab == AppTab.MedicalInformationEntries
           ? new FloatingActionButton(
@@ -141,7 +159,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       appState.isLoading = true;
     });
-    _loadLists();
+    _onRefresh();
   }
 
   Future<bool> addMedicalInfo(MedicalInformation medicalInfo) {
@@ -152,7 +170,7 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           appState.isLoading = true;
         });
-        _loadLists();
+        _onRefresh();
       }
       return success;
     });

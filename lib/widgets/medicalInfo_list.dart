@@ -21,10 +21,7 @@ class MedicalInfoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: loading
-          ? Center(
-              child: CircularProgressIndicator(
-              key: HealthBookKeys.medicalInfoLoading,
-            ))
+          ? Container()
           : medicalInfoList.isEmpty
               ? Center(
                   child: Text('No medical information entries (yet).'),

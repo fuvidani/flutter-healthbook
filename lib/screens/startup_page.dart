@@ -18,8 +18,13 @@ class _StartUpPageState extends State<StartUpPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: LinearProgressIndicator(
-        value: null,
+      body: Center(
+        child: Text(
+          'Healthbook',
+          style: TextStyle(fontFamily: 'Comfortaa', color: Colors.blue),
+          textAlign: TextAlign.center,
+          textScaleFactor: 2.5,
+        ),
       ),
     );
   }
@@ -37,7 +42,9 @@ class _StartUpPageState extends State<StartUpPage> {
           isValid ? _navigateToHome() : _navigateToLogin();
         });
       } else {
-        _navigateToLogin();
+        Future.delayed(Duration(seconds: 2), () {
+          _navigateToLogin();
+        });
       }
     })();
   }

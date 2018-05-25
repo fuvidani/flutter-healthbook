@@ -24,10 +24,7 @@ class MedicalQueryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: isLoading
-          ? Center(
-              child: CircularProgressIndicator(
-              key: HealthBookKeys.medicalQueryListLoading,
-            ))
+          ? Container()
           : queries.keys.isEmpty
               ? Center(
                   child: Text(
