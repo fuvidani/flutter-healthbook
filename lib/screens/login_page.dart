@@ -113,18 +113,14 @@ class _LoginPageState extends State<LoginPage> {
                       ? 'Invalid address'
                       : null,
                   onSaved: (val) => _apiAddress = val,
-                  //initialValue: "http://88.116.5.26:4640",
-                  initialValue: "https://128.130.249.111:8443",
+                  initialValue: "https://128.130.251.181:8443",
                   enabled: !isLoading,
                 ),
                 new TextFormField(
                   decoration: new InputDecoration(labelText: 'E-mail'),
                   validator: (val) =>
-                      // TODO change validation pattern for production
-                      //!val.contains('@') || !val.contains(".") ? 'Invalid e-mail address' : null,
-                      val.trim().isEmpty ? 'Invalid e-mail address' : null,
+                      !val.contains('@') || !val.contains(".") ? 'Invalid e-mail address' : null,
                   onSaved: (val) => _email = val,
-                  //initialValue: "PV20",
                   initialValue: "test.user@gmail.com",
                   enabled: !isLoading,
                 ),
@@ -134,7 +130,6 @@ class _LoginPageState extends State<LoginPage> {
                       val.length < 3 ? 'Password too short.' : null,
                   onSaved: (val) => _password = val,
                   obscureText: true,
-                  //initialValue: "w9A7d7B2Xzhq74",
                   initialValue: "password",
                   enabled: !isLoading,
                 ),

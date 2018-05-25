@@ -83,6 +83,14 @@ class MedicalInformation {
   MedicalInformation(this.id, this.userId, this.title, this.description,
       this.image, this.tags);
 
+  MedicalInformation.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        userId = json['userId'],
+        title = json['title'],
+        description = json['description'],
+        image = json['image'],
+        tags = parseJsonTagsList(json['tags']);
+
   Map<String, dynamic> toJson() => {
         'id': null,
         'userId': userId,
@@ -91,6 +99,14 @@ class MedicalInformation {
         'image': image,
         'tags': tags
       };
+
+  static List<String> parseJsonTagsList(List<dynamic> list) {
+    final List<String> result = [];
+    list.forEach((element) {
+      result.add(element.toString());
+    });
+    return result;
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -125,7 +141,6 @@ class AuthRequest {
 
   AuthRequest(this.email, this.password);
 
-  // TODO change json attribute from username to email for production
   Map<String, dynamic> toJson() => {
         'email': email,
         'password': password,
@@ -150,6 +165,22 @@ class RelevantQueryData {
 
   RelevantQueryData(this.queryId, this.queryName, this.queryDescription,
       this.queryInstituteName, this.queryPrice, this.medicalInfo);
+
+  RelevantQueryData.fromJson(Map<String, dynamic> json)
+      : queryId = json['queryId'],
+        queryName = json['queryName'],
+        queryDescription = json['queryDescription'],
+        queryInstituteName = json['queryInstituteName'],
+        queryPrice = json['queryPrice'] as double,
+        medicalInfo = jsonToMedicalInfoList(json['medicalInfo']);
+
+  static List<Tuple2> jsonToMedicalInfoList(List<dynamic> list) {
+    final List<Tuple2> result = [];
+    list.forEach((element) {
+      result.add(new Tuple2(element["first"], element["second"]));
+    });
+    return result;
+  }
 
   @override
   bool operator ==(Object other) =>
