@@ -20,6 +20,8 @@ class AppState {
   });
 
   AppState.withData(this.medicalInformationEntries, this.medicalQueries) {
+    this.medicalInformationEntries.sort((a,b) => a.title.compareTo(b.title));
+    this.medicalQueries.sort((a,b) => a.queryName.compareTo(b.queryName));
     this.isLoading = false;
     this.checkBoxStates = {};
     this.queriesToMedicalInfoMap = {};
@@ -36,6 +38,7 @@ class AppState {
         correspondingMedicalEntries.add(information);
         checkBoxStates[query][information] = false;
       });
+      correspondingMedicalEntries.sort((a,b) => a.title.compareTo(b.title));
       queriesToMedicalInfoMap[query] = correspondingMedicalEntries;
     });
   }
