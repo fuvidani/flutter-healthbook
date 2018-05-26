@@ -11,6 +11,7 @@ import 'package:healthbook/util/keys.dart';
 import 'package:healthbook/util/typedefs.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path/path.dart' as path;
 
 class AddMedicalInfoPage extends StatefulWidget {
   final MedicalInfoAdder infoAdder;
@@ -77,25 +78,27 @@ class _AddMedicalInfoPageState extends State<AddMedicalInfoPage> {
     }
   }
 
-  Future<bool> _saveMedicalInfo(
-      String title, String description, String tagString) async {
-    List<String> tags = new List();
+  Future<bool> _saveMedicalInfo(final String title, final String description,
+      final String tagString) async {
+    final List<String> tags = new List();
     tagString.split(",").forEach((tag) {
       tags.add(tag.trim());
     });
     String image = "";
     if (_imageFile != null) {
-      List<int> bytes = await _imageFile.readAsBytes();
-      image = await imageToBase64(bytes);
+      final List<int> bytes = await _imageFile.readAsBytes();
+      image = await imageToBase64(bytes, path.extension(_imageFile.path));
     }
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString(USER_ID_KEY);
     return infoAdder(
         MedicalInformation(null, userId, title, description, image, tags));
   }
 
-  Future<String> imageToBase64(List<int> bytes) async {
-    return Base64Encoder().convert(bytes);
+  Future<String> imageToBase64(
+      final List<int> bytes, final String extension) async {
+    return 'data:image/${extension.substring(1)};base64,' +
+        Base64Encoder().convert(bytes);
   }
 
   /// Veto "back" action if there is an ongoing operation

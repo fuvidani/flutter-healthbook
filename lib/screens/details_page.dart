@@ -39,10 +39,17 @@ class MedicalInfoDetailsPage extends StatelessWidget {
     return new Container(
       padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
       child: Image.memory(
-        Base64Decoder().convert(medicalInformation.image),
+        Base64Decoder().convert(_getImageBase64String()),
         fit: BoxFit.fitWidth,
       ),
     );
+  }
+  
+  String _getImageBase64String() {
+    if(medicalInformation.image.contains('data:image')) {
+      return medicalInformation.image.split(',')[1];
+    }
+    return medicalInformation.image;
   }
 
   Widget _titleSection(BuildContext context) {
