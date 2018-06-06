@@ -44,9 +44,9 @@ class MedicalInfoDetailsPage extends StatelessWidget {
       ),
     );
   }
-  
+
   String _getImageBase64String() {
-    if(medicalInformation.image.contains('data:image')) {
+    if (medicalInformation.image.contains('base64')) {
       return medicalInformation.image.split(',')[1];
     }
     return medicalInformation.image;
